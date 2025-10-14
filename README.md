@@ -18,7 +18,7 @@
 **Pipeline Summary:**  
 1. **Push/PR → Trigger GitHub Actions**  
 2. **Install dependencies** (npm install)  
-3. **Run Unit Tests (Jest)**  
+3. **Run Unit Tests**  
 4. **Build Docker Image**  
 5. **Push Image ไปยัง GitHub Container Registry (GHCR)**  
 6. *(Optional)* Deploy ขึ้น Server / Cloud ผ่าน SSH หรือ Container Hosting
