@@ -1,6 +1,6 @@
 # Clound Deployment  Group Project
 
-# 🔐 API-Based Authentication System (TypeScript + Express + JWT)
+## 🔐 API-Based Authentication System (TypeScript + Express + JWT)
 
 โครงการนี้เป็นส่วนหนึ่งของรายวิชา **Cloud Deployment**  
 มหาวิทยาลัยเชียงใหม่ (Chiang Mai University)
