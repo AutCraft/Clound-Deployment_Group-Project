@@ -115,5 +115,3 @@ under the course **Cloud Deployment (CMU)**.
 All materials may be reused for learning and non-commercial projects.
 
 © 2025 — Faculty of Science, Chiang Mai University
-
-```
