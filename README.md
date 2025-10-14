@@ -110,8 +110,4 @@ JWT_SECRET=<your-secret-key>
 
 **Cloud Deployment — Chiang Mai University**
 
-This project was developed for **educational purposes only**
-under the course **Cloud Deployment (CMU)**.
-All materials may be reused for learning and non-commercial projects.
-
-© 2025 — Faculty of Science, Chiang Mai University
+© 2025 — Chiang Mai University
