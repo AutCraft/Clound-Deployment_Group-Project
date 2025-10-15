@@ -18,7 +18,7 @@
 **Pipeline Summary:**  
 1. **Push/PR → Trigger GitHub Actions**  
 2. **Install dependencies** (npm install)  
-3. **Run Unit Tests**  
+3. **Run Unit Tests (Jest)**  
 4. **Build Docker Image**  
 5. **Push Image ไปยัง GitHub Container Registry (GHCR)**  
 6. *(Optional)* Deploy ขึ้น Server / Cloud ผ่าน SSH หรือ Container Hosting
@@ -71,6 +71,7 @@ JWT_SECRET=<your-secret-key>
 | ------------------------- | ------------------------------------------------ |
 | 🔑 **User Registration**  | สมัครสมาชิกใหม่ผ่าน API                          |
 | 🔐 **JWT Login**          | รับ Token เมื่อเข้าสู่ระบบสำเร็จ                 |
+| 🚪 **JWT Logout**         | ทำการ Logout โดยการ Invalidate Token (Blacklist) |
 | 👤 **Protected Endpoint** | เข้าถึงข้อมูลผู้ใช้โดยต้องมี Token               |
 | 🧪 **Automated Testing**  | ตรวจสอบฟังก์ชันหลักผ่าน Jest                     |
 | 🐳 **Containerization**   | สร้าง Docker Image พร้อม Deploy อัตโนมัติ        |
@@ -84,6 +85,7 @@ JWT_SECRET=<your-secret-key>
 | --------------- | ------------ | ------ | --------------------------------- |
 | `register()`    | `/register`  | POST   | สร้างบัญชีผู้ใช้ใหม่              |
 | `login()`       | `/login`     | POST   | ตรวจสอบรหัสผ่านและออก JWT Token   |
+| `logout()`      | `/logout`    | POST   | ทำการ Logout โดยเพิ่ม Token ลงใน Blacklist |
 | `getProfile()`  | `/me`        | GET    | คืนข้อมูลผู้ใช้ที่เข้าสู่ระบบอยู่ |
 | `verifyToken()` | middleware   | -      | ตรวจสอบความถูกต้องของ JWT         |
 | `runTests()`    | Jest command | -      | รันชุดทดสอบอัตโนมัติใน CI/CD      |
@@ -100,6 +102,8 @@ JWT_SECRET=<your-secret-key>
 | TC-004 | Login with wrong password      | 401 Unauthorized   |
 | TC-005 | Access `/me` without token     | 401 Unauthorized   |
 | TC-006 | Access `/me` with valid token  | 200 OK + user info |
+| TC-007 | Logout with valid token        | 200 OK + “Logout success” |
+| TC-008 | Access /me after logout        | 401 Unauthorized (Token invalid) |
 
 **Test Tool:** Jest + Supertest
 **CI/CD Integration:** ทดสอบอัตโนมัติผ่าน GitHub Actions ทุกครั้งที่ push
