@@ -64,3 +64,49 @@ authRouter.post("/logout", (_req: Request, res: Response) => {
   res.clearCookie("rt", { path: "/" });
   return res.sendStatus(200);
 });
+
+const validRefreshTokens = new Set<string>();
+
+authRouter.post("/login", (req: Request, res: Response) => {
+  const { email, password } = req.body || {};
+  const user = findByEmail(String(email || "").toLowerCase());
+  if (!user || user.password !== password) return res.status(401).json({ message: "Invalid credentials" });
+
+  const access = signAccess(user.id);
+  const refresh = signRefresh(user.id);
+
+  // เก็บ refresh token ไว้
+  validRefreshTokens.add(refresh);
+
+  res.cookie("rt", refresh, { httpOnly: true, secure: true, sameSite: "strict", path: "/" });
+  return res.json({ accessToken: access, expiresIn: parseInt(process.env.ACCESS_EXPIRES_SEC || "3600", 10) });
+});
+
+authRouter.post("/logout", (req: Request, res: Response) => {
+  const rt = req.cookies?.rt;
+  if (rt) {
+    validRefreshTokens.delete(rt); // เอาออกจากเซต -> ใช้ต่อไม่ได้
+  }
+  res.clearCookie("rt", { path: "/" });
+  return res.status(200).json({ message: "Logged out successfully" });
+});
+
+authRouter.post("/refresh", (req: Request, res: Response) => {
+  const rt = req.cookies?.rt;
+  if (!rt) return res.sendStatus(401);
+  if (!validRefreshTokens.has(rt)) return res.sendStatus(401); 
+
+  try {
+    const payload = verifyJwt(rt);
+    const sub = String(payload.sub || "");
+    if (!sub.startsWith("rt:")) return res.sendStatus(401);
+
+    const userId = sub.replace(/^rt:/, "");
+    if (!users.get(userId)) return res.sendStatus(401);
+
+    const access = signAccess(userId);
+    return res.json({ accessToken: access, expiresIn: parseInt(process.env.ACCESS_EXPIRES_SEC || "3600", 10) });
+  } catch {
+    return res.sendStatus(401);
+  }
+});
