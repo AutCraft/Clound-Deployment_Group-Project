@@ -4,6 +4,7 @@ import { signAccess, signRefresh, verifyJwt } from "./jwt.js";
 import { users, findByEmail } from "../Database/users.js";
 
 const validRefreshTokens = new Set<string>();
+const revokedAccessTokens = new Set<string>();
 
 export const register = (req: Request, res: Response) => {
   const { email, password, name } = req.body || {};
@@ -51,6 +52,7 @@ export const me = (req: Request, res: Response) => {
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
   if (!token) return res.sendStatus(401);
   try {
+    if (revokedAccessTokens.has(token)) return res.sendStatus(401);
     const payload = verifyJwt(token);
     const user = users.get(String(payload.sub));
     if (!user) return res.sendStatus(404);
@@ -63,6 +65,9 @@ export const me = (req: Request, res: Response) => {
 export const logout = (req: Request, res: Response) => {
   const rt = req.cookies?.rt;
   if (rt) validRefreshTokens.delete(rt);
+  const auth = req.headers.authorization || "";
+  const at = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+  if (at) revokedAccessTokens.add(at);
   res.clearCookie("rt", { path: "/" });
-  return res.status(200).json({ message: "Logged out successfully" });
+  return res.status(200).json({ message: "Logout success" });
 };

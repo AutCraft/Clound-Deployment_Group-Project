@@ -22,7 +22,6 @@ describe("Login API", () => {
 
   // TC-004: Logout should clear refresh cookie and return 200
   it("TC-004: should logout and clear refresh token cookie (200)", async () => {
-    // First login to ensure cookie is set
     const loginRes = await request(app).post("/api/v1/auth/login").send({
       email: user.email,
       password: user.password,
