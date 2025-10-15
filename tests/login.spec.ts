@@ -20,8 +20,20 @@ describe("Login API", () => {
     expect(res.body).toHaveProperty("expiresIn");
   });
 
-  // TC-XXX: 
-  it.skip("TC-XXX: ...", async () => {
-     //เพิ่มตรงนี้เน้อ
+  // TC-004: Logout should clear refresh cookie and return 200
+  it("TC-004: should logout and clear refresh token cookie (200)", async () => {
+    // First login to ensure cookie is set
+    const loginRes = await request(app).post("/api/v1/auth/login").send({
+      email: user.email,
+      password: user.password,
+    });
+    expect(loginRes.status).toBe(200);
+
+    const res = await request(app).post("/api/v1/auth/logout");
+    expect(res.status).toBe(200);
+    const setCookie = res.headers['set-cookie'] || [];
+    const rtCookie = setCookie.find((c: string) => c.startsWith('rt=')) as string | undefined;
+    expect(rtCookie).toBeDefined();
+    expect(/rt=(?:;|$)|Max-Age=0|expires=/i.test(rtCookie!)).toBeTruthy();
   });
 });
