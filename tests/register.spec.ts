@@ -20,8 +20,5 @@ describe("Register API", () => {
         expect(res.body).toHaveProperty("message", "Email already used");
     });
 
-    // TC-XXX: (ช่องว่างสำหรับ TC อื่นๆ)
-    it.skip("TC-XXX: ...", async () => {
-        // เพิ่ม test case อื่นที่นี่
-    });
+    
 });

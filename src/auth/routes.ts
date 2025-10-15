@@ -1,5 +1,6 @@
-import { Router, Request, Response } from "express";
-import { signAccess, signRefresh, verifyJwt } from "./jwt";
+import { Router } from "express";
+import type { Request, Response } from "express";
+import { signAccess, signRefresh, verifyJwt } from "./jwt.js";
 
 type User = { id: string; email: string; password: string; name: string };
 const users = new Map<string, User>();

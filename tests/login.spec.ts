@@ -20,8 +20,8 @@ describe("Login API", () => {
     expect(res.body).toHaveProperty("expiresIn");
   });
 
-  // TC-XXX: (ช่องว่างสำหรับ TC อื่นๆ)
+  // TC-XXX: 
   it.skip("TC-XXX: ...", async () => {
-    // เพิ่ม test case อื่นที่นี่
+     //เพิ่มตรงนี้เน้อ
   });
 });
