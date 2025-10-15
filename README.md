@@ -8,6 +8,14 @@
 ระบบนี้เป็น **API-Based Authentication** พัฒนาโดยใช้ **Node.js (TypeScript)**  
 มีระบบ **CI/CD Pipeline** สำหรับการ **Deploy แบบอัตโนมัติ** ไปยัง GitHub Container Registry (GHCR)
 
+**Technical Stack:**
+- **Runtime**: Node.js 20+ with ES Modules
+- **Language**: TypeScript 5.9+
+- **Framework**: Express.js 5.1+
+- **Authentication**: JWT with Access/Refresh Token pattern
+- **Testing**: Jest with Supertest
+- **Development**: tsx for hot reload
+
 ---
 
 ## 🚀 Deployment Plan
@@ -87,7 +95,8 @@ NODE_ENV=production
 Clound-Deployment_Group-Project/
 ├── .github/
 │   └── workflows/
-│       └── docker-build-and-push.yml    # GitHub Actions CI/CD
+│       └── deploy.yml                   # GitHub Actions CI/CD
+│       └── main.yml 
 ├── src/
 │   ├── Controller/
 │   │   ├── AuthController.ts            # Authentication logic
@@ -104,7 +113,7 @@ Clound-Deployment_Group-Project/
 │   │   ├── logout.spec.ts               # Logout tests
 │   │   ├── profile.spec.ts              # Profile tests
 │   │   └── register.spec.ts             # Registration tests
-│   └── index.ts                         # Main application entry
+│   └── index.ts                         # Main application entry (Express app)
 ├── .dockerignore                        # Docker ignore file
 ├── Dockerfile                           # Docker configuration
 ├── jest.config.cjs                      # Jest test configuration
@@ -202,18 +211,27 @@ docker run -p 3000:3000 \
 # Install dependencies
 npm install
 
-# Run in development mode
+# Run in development mode (with hot reload)
 npm run dev
 
 # Run tests
 npm test
 
-# Build for production
+# Build for production (TypeScript compilation)
 npm run build
 
-# Start production server
+# Start production server (from dist/index.js)
 npm start
 ```
+
+### 📝 Available Scripts
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| `dev` | `tsx watch src/index.ts` | Development server with hot reload |
+| `build` | `tsc -p tsconfig.json` | Compile TypeScript to JavaScript |
+| `start` | `node dist/index.js` | Start production server |
+| `test` | `jest` | Run test suite |
 
 ---
 
