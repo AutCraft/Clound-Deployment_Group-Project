@@ -51,7 +51,7 @@
   "exclude": [
     "node_modules",
     "dist",
-    "tests",
+    "src/Test",
     "**/*.spec.ts",
     "jest.config.ts",
     "jest.config.cjs"

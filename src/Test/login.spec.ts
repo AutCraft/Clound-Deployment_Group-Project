@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../src/auth/app.js";
+import { app } from "../index.js";
 
 describe("Login API", () => {
   const user = { email: "test1@example.com", password: "123456", name: "Test User" };

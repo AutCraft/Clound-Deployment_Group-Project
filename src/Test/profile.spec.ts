@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../src/auth/app.js";
+import { app } from "../index.js";
 
 describe("Profile API", () => {
   const user = { email: "test-profile@example.com", password: "abcdef", name: "Profile User" };
