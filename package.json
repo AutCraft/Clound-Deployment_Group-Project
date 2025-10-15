@@ -1,5 +1,6 @@
 {
   "name": "clound-deployment_group-project",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
